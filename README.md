@@ -1,1 +1,1 @@
-Personal Blog powered by Jekyll&Gitpage! https://zronel.github.io
+Personal Blog powered by Hexo&Gitpage! https://zronel.github.io
