@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.1.0',
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Git的目录结构当你在某个git工程下使用ls -a 命令的时候就会发现当前目录多出了一个.git隐藏文件夹   cd .git  进入该文件夹使用命令 ls  会发现一片新的天地，里头好些文件与文件夹。内容如下：    文件夹名 作用               HEAD 这个git项目当前处在哪个分支里   config 项目的配置信息，git config命令会改动它         des">
+<meta property="og:type" content="article">
+<meta property="og:title" content="对Git的一些粗略的理解">
+<meta property="og:url" content="http://yoursite.com/2018/10/20/对Git的一些粗略的理解/index.html">
+<meta property="og:site_name" content="Notes">
+<meta property="og:description" content="Git的目录结构当你在某个git工程下使用ls -a 命令的时候就会发现当前目录多出了一个.git隐藏文件夹   cd .git  进入该文件夹使用命令 ls  会发现一片新的天地，里头好些文件与文件夹。内容如下：    文件夹名 作用               HEAD 这个git项目当前处在哪个分支里   config 项目的配置信息，git config命令会改动它         des">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/1.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/2.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/3.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/4.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/5.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/6.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/7.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/8.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/9.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/10.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/11.png">
+<meta property="og:updated_time" content="2018-10-31T05:10:10.438Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="对Git的一些粗略的理解">
+<meta name="twitter:description" content="Git的目录结构当你在某个git工程下使用ls -a 命令的时候就会发现当前目录多出了一个.git隐藏文件夹   cd .git  进入该文件夹使用命令 ls  会发现一片新的天地，里头好些文件与文件夹。内容如下：    文件夹名 作用               HEAD 这个git项目当前处在哪个分支里   config 项目的配置信息，git config命令会改动它         des">
+<meta name="twitter:image" content="http://ojg2nfova.bkt.clouddn.com/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/20/对Git的一些粗略的理解/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>对Git的一些粗略的理解 | Notes</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/20/对Git的一些粗略的理解/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liudiguang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">对Git的一些粗略的理解
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+                
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-10-20T00:00:00+08:00">2018-10-20</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2018/10/20/对Git的一些粗略的理解/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments:</span> <span class="post-comments-count gitment-comments-count" data-xid="/2018/10/20/对Git的一些粗略的理解/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Git的目录结构"><a href="#Git的目录结构" class="headerlink" title="Git的目录结构"></a>Git的目录结构</h1><p>当你在某个git工程下使用ls -a 命令的时候就会发现当前目录多出了一个.git隐藏文件夹  </p>
+<p>cd .git  进入该文件夹使用命令 ls  会发现一片新的天地，里头好些文件与文件夹。内容如下：</p>
+<table>
+<thead>
+<tr>
+<th>文件夹名</th>
+<th style="text-align:center">作用          </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HEAD</td>
+<td style="text-align:center">这个git项目当前处在哪个分支里</td>
+</tr>
+<tr>
+<td>config</td>
+<td style="text-align:center">项目的配置信息，git config命令会改动它      </td>
+</tr>
+<tr>
+<td>description</td>
+<td style="text-align:center">项目的描述信息  </td>
+</tr>
+<tr>
+<td>index</td>
+<td style="text-align:center">索引文件 </td>
+</tr>
+<tr>
+<td>hooks/</td>
+<td style="text-align:center">系统默认钩子脚本目录  </td>
+</tr>
+<tr>
+<td>logs/</td>
+<td style="text-align:center">各个refs的历史信息</td>
+</tr>
+<tr>
+<td>objects/</td>
+<td style="text-align:center">Git本地仓库的所有对象 (commits, trees, blobs, tags) </td>
+</tr>
+<tr>
+<td>refs/</td>
+<td style="text-align:center">标识你项目里的每个分支指向了哪个提交(commit) </td>
+</tr>
+</tbody>
+</table>
+<p>接下来找个有git管理的项目</p>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/1.png" alt="image"></p>
+<p>进入HEAD找到目前被检出的分支<br>vim HEAD</p>
+<p>内容如下：ref: refs/heads/master</p>
+<p>跟随着他的指示我们继续前往refs/heads目录</p>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/2.png" alt="image"></p>
+<p>git cat-file: 命令显示版本库对象的内容、类型及大小信息</p>
+<p>通过 cat-file 命令可以将数据内容取回。该命令是查看 Git 对象的瑞士军刀。传入 -p 参数可以让该命令输出数据内容的类型：</p>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/3.png" alt="image"></p>
+<p>tree:指向一个tree对象，至于tree对象是什么后面有说<br>parent：我猜是他的上一个提交，至于是不是使用git log命令来验证下</p>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/4.png" alt="image"></p>
+<p>通过git log 发现parent指向的确实是上一个提交。</p>
+<p>author<br>committer<br>这两个不用看也知道是啥了</p>
+<p>先看看 56c4433155f3e1b1321555053908f98434c383d3 这个末置点，</p>
+<p>返回.git目录然后进入object,可以在 objects 目录下看到一个文件。这便是 Git 存储数据内容的方式──为每份内容生成一个文件，取得该内容与头信息的 SHA-1 校验和，创建以该校验和前两个字符为名称的子目录，并以 (校验和) 剩下 38 个字符为文件命名 (保存至子目录下)。</p>
+<p>git cat-file -p 56c4433155f3e1b1321555053908f98434c383d3</p>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/5.png" alt="image"></p>
+<p>好巧，与refs/heads/master的内容可以说是一模一样的了，由此可见一大串的SHA指的就是一次commit，一个commit存储着文件改动以及他的父节点</p>
+<p>说下git中各种对象的意义，每个对象(object) 包括三个部分：类型，大小和内容。大小就是指内容的大小，内容取决于对象的类型，有四种类型的对象：”blob”、”tree”、 “commit” 和”tag”：</p>
+<ul>
+<li>“blob”用来存储文件数据，通常是一个文件。</li>
+<li>“tree”有点像一个目录，它管理一些“tree”或是 “blob”（就像文件和子目录）</li>
+<li>一个“commit”只指向一个”tree”，它用来标记项目某一个特定时间点的状态。它包括一些关于时间点的元数据，如时间戳、最近一次提交的作者、指向上次提交（commits）的指针等等。</li>
+<li>一个“tag”是来标记某一个提交(commit) 的方法。</li>
+</ul>
+<h3 id="Blob对象"><a href="#Blob对象" class="headerlink" title="Blob对象"></a>Blob对象</h3><p>一个blob通常用来存储文件的内容.</p>
+<p>你可以使用git show命令来查看一个blob对象里的内容。假设我们现在有一个Blob对象的SHA1哈希值，我们可以通过下面的的命令来查看内容：</p>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/6.png" alt="image"></p>
+<p>因为blob对象内容全部都是数据，如两个文件在一个目录树（或是一个版本仓库）中有同样的数据内容，那么它们将会共享同一个blob对象。Blob对象和其所对应的文件所在路径、文件名是否改被更改都完全没有关系。这里存放的是我第一篇博客的内容，可以去最前头找下。</p>
+<h3 id="tree"><a href="#tree" class="headerlink" title="tree"></a>tree</h3><p>一个tree对象有一串(bunch)指向blob对象或是其它tree对象的指针，它一般用来表示内容之间的目录层次关系。git show命令还可以用来查看tree对象，但是git ls-tree能让你看到更多的细节。如果我们有一个tree对象的SHA1哈希值，我们可以像下面一样来查看它：</p>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/7.png" alt="image"></p>
+<p>就如同你所见，一个tree对象包括一串(list)条目，每一个条目包括：mode、对象类型、SHA1值 和名字(这串条目是按名字排序的)。它用来表示一个目录树的内容。</p>
+<p>一个tree对象可以指向(reference): 一个包含文件内容的blob对象, 也可以是其它包含某个子目录内容的其它tree对象. Tree对象、blob对象和其它所有的对象一样，都用其内容的SHA1哈希值来命名的；只有当两个tree对象的内容完全相同（包括其所指向所有子对象）时，它的名字才会一样，反之亦然。这样就能让Git仅仅通过比较两个相关的tree对象的名字是否相同，来快速的判断其内容是否不同。</p>
+<p>若是用图来表示的话如下所示：</p>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/8.png" alt="image"></p>
+<h3 id="Commit对象"><a href="#Commit对象" class="headerlink" title="Commit对象"></a>Commit对象</h3><p>“commit对象”指向一个”tree对象”, 并且带有相关的描述信息.<br>可以用 –pretty=raw 参数来配合 git show 或 git log 去查看某个提交(commit):</p>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/9.png" alt="image"></p>
+<p>可以看到, 一个提交(commit)由以下的部分组成:</p>
+<ul>
+<li><p>一个 tree　对象: tree对象的SHA1签名, 代表着目录在某一时间点的内容.</p>
+</li>
+<li><p>父对象 (parent(s)): 提交(commit)的SHA1签名代表着当前提交前一步的项目历史. 上面的那个例子就只有一个父对象; 合并的提交(merge commits)可能会有不只一个父对象. 如果一个提交没有父对象, 那么我们就叫它“根提交”(root commit), 它就代表着项目最初的一个版本(revision). 每个项目必须有至少有一个“根提交”(root commit). 一个项目可能有多个”根提交“，虽然这并不常见(这不是好的作法).</p>
+</li>
+<li><p>作者 : 做了此次修改的人的名字,　还有修改日期.</p>
+</li>
+<li><p>提交者（committer): 实际创建提交(commit)的人的名字, 同时也带有提交日期. TA可能会和作者不是同一个人; 例如作者写一个补丁(patch)并把它用邮件发给提交者, 由他来创建提交(commit).</p>
+</li>
+<li><p>－注释 用来描述此次提交.</p>
+</li>
+</ul>
+<p>注意: 一个提交(commit)本身并没有包括任何信息来说明其做了哪些修改; 所有的修改(changes)都是通过与父提交(parents)的内容比较而得出的. 值得一提的是, 尽管git可以检测到文件内容不变而路径改变的情况, 但是它不会去显式(explicitly)的记录文件的更名操作.　(你可以看一下 git diff 的 -M　参数的用法)</p>
+<p>一般用 git commit 来创建一个提交(commit), 这个提交(commit)的父对象一般是当前分支(current HEAD),　同时把存储在当前索引(index)的内容全部提交.</p>
+<p>一个commit的内容就如图所示：</p>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/10.png" alt="image"></p>
+<p>#git 一些常用初级命令</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th style="text-align:center">作用          </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Git clone</td>
+<td style="text-align:center">从远程库下载一份代码</td>
+</tr>
+<tr>
+<td>Git branch</td>
+<td style="text-align:center">查看本地的分支      </td>
+</tr>
+<tr>
+<td>Git checkout</td>
+<td style="text-align:center">切换分支 </td>
+</tr>
+<tr>
+<td>Git pull</td>
+<td style="text-align:center">从远程拉代码到本地并与本地代码合并 </td>
+</tr>
+<tr>
+<td>Git push</td>
+<td style="text-align:center">将一个commit提交到远程库 </td>
+</tr>
+<tr>
+<td>Git status</td>
+<td style="text-align:center">查看当前的git版本库状态</td>
+</tr>
+<tr>
+<td>Git diff</td>
+<td style="text-align:center">查看修改的内容</td>
+</tr>
+<tr>
+<td>Git reset</td>
+<td style="text-align:center">将当前的分支重设（reset）到指定的<commit>或者HEAD（默认，如果不显示指定commit，默认是HEAD，即最新的一次提交）</commit></td>
+</tr>
+</tbody>
+</table>
+<p>#git 一些中阶命令</p>
+<h2 id="git-blame"><a href="#git-blame" class="headerlink" title="git blame"></a>git blame</h2><p>如果你要查看文件的每个部分是谁修改的, 那么 git blame 就是不二选择. 只要运行’git blame [filename]’, 你就会得到整个文件的每一行的详细修改信息:包括SHA串,日期和作者:</p>
+<p>给具体文件执行$git blame后的效果如下:</p>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/11.png" alt="image"></p>
+<p>##Git revert</p>
+<p>git revert 撤销 某次操作，此次操作之前和之后的commit和history都会保留，并且把这次撤销<br>作为一次最新的提交</p>
+<pre><code>* git revert HEAD                  撤销前一次 commit
+* git revert HEAD^               撤销前前一次 commit
+* git revert commit （比如：fa042ce57ebbe5bb9c8db709f719cec2c58ee7ff）撤销指定的版本，撤销也会作为一次提交进行保存。
+</code></pre><p>git revert是提交一个新的版本，将需要revert的版本的内容再反向修改回去，<br>版本会递增，不影响之前提交的内容</p>
+<h2 id="Git-stash-pop"><a href="#Git-stash-pop" class="headerlink" title="Git stash/pop"></a>Git stash/pop</h2><p>git stash用于将当前工作区的修改暂存起来，就像堆栈一样，可以随时将某一次缓存的修改再重新应用到当前工作区。</p>
+<p>用法:git stash 可用来暂存当前正在进行的工作， 比如想pull 最新代码， 又不想加新commit， 或者另外一种情况，为了fix 一个紧急的bug,  先stash, 使返回到自己上一个commit, 改完bug之后再stash pop, 继续原来的工作。<br>基础命令：<br>$git stash<br>$do some work<br>$git stash pop</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/06/webpack模块化实现原理/" rel="next" title="webpack模块化实现原理">
+                <i class="fa fa-chevron-left"></i> webpack模块化实现原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">liudiguang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Git的目录结构"><span class="nav-number">1.</span> <span class="nav-text">Git的目录结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Blob对象"><span class="nav-number">1.0.1.</span> <span class="nav-text">Blob对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tree"><span class="nav-number">1.0.2.</span> <span class="nav-text">tree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Commit对象"><span class="nav-number">1.0.3.</span> <span class="nav-text">Commit对象</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git-blame"><span class="nav-number">1.1.</span> <span class="nav-text">git blame</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-stash-pop"><span class="nav-number">1.2.</span> <span class="nav-text">Git stash/pop</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liudiguang</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname,
+            owner: 'Zronel',
+            repo: 'git@github.com:Zronel/Zronel.github.io.git',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'ce1ec0fb71b5e3ff493a89a30433949a78c767a7',
+            
+                client_id: '50ebacaf91c23192d58e'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

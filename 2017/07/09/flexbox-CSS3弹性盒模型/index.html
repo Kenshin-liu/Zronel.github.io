@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.1.0',
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="flexbox弹性布局（flexible box）模块旨在提供一个更加有效的方式来布置，对齐和分布在容器之间的各项内容，即使它们的大小是未知或者动态变化的。 弹性布局的主要思想是让容器有能力来改变项目的宽度和高度，以填满可用空间（主要是为了容纳所有类型的显示设备和屏幕尺寸）的能力。 最重要的是弹性盒子布局与方向无关，相对于常规的布局（块是垂直和内联水平为基础），很显然，这些工作以及网页设计缺乏灵活">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flexbox-CSS3弹性盒模型">
+<meta property="og:url" content="http://yoursite.com/2017/07/09/flexbox-CSS3弹性盒模型/index.html">
+<meta property="og:site_name" content="Notes">
+<meta property="og:description" content="flexbox弹性布局（flexible box）模块旨在提供一个更加有效的方式来布置，对齐和分布在容器之间的各项内容，即使它们的大小是未知或者动态变化的。 弹性布局的主要思想是让容器有能力来改变项目的宽度和高度，以填满可用空间（主要是为了容纳所有类型的显示设备和屏幕尺寸）的能力。 最重要的是弹性盒子布局与方向无关，相对于常规的布局（块是垂直和内联水平为基础），很显然，这些工作以及网页设计缺乏灵活">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/flexbox.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/flex-wrap.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/justify-content.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/align-items.png">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/align-content.png">
+<meta property="og:updated_time" content="2018-10-31T05:09:02.984Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="flexbox-CSS3弹性盒模型">
+<meta name="twitter:description" content="flexbox弹性布局（flexible box）模块旨在提供一个更加有效的方式来布置，对齐和分布在容器之间的各项内容，即使它们的大小是未知或者动态变化的。 弹性布局的主要思想是让容器有能力来改变项目的宽度和高度，以填满可用空间（主要是为了容纳所有类型的显示设备和屏幕尺寸）的能力。 最重要的是弹性盒子布局与方向无关，相对于常规的布局（块是垂直和内联水平为基础），很显然，这些工作以及网页设计缺乏灵活">
+<meta name="twitter:image" content="http://ojg2nfova.bkt.clouddn.com/flexbox.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/09/flexbox-CSS3弹性盒模型/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>flexbox-CSS3弹性盒模型 | Notes</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/09/flexbox-CSS3弹性盒模型/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liudiguang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">flexbox-CSS3弹性盒模型
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+                
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-09T00:00:00+08:00">2017-07-09</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/07/09/flexbox-CSS3弹性盒模型/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments:</span> <span class="post-comments-count gitment-comments-count" data-xid="/2017/07/09/flexbox-CSS3弹性盒模型/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="flexbox"><a href="#flexbox" class="headerlink" title="flexbox"></a>flexbox</h1><p>弹性布局（flexible box）模块旨在提供一个更加有效的方式来布置，对齐和分布在容器之间的各项内容，即使它们的大小是未知或者动态变化的。</p>
+<p>弹性布局的主要思想是让容器有能力来改变项目的宽度和高度，以填满可用空间（主要是为了容纳所有类型的显示设备和屏幕尺寸）的能力。</p>
+<p>最重要的是弹性盒子布局与方向无关，相对于常规的布局（块是垂直和内联水平为基础），很显然，这些工作以及网页设计缺乏灵活性，无法支持大型和复杂的应用程序（特别当它涉及到改变方向，缩放、拉伸和收缩等）。</p>
+<h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><p>由于flexbox是一个整体模块，而不是单一的一个属性，它涉及到了很多东西，包括它的整个属性集。它们之中有一些是在父容器上设置，而有一些则是在子容器上设置。</p>
+<p>如果经常布局基于块和内嵌流方向，柔性布局基于“柔性流动方向”。请看看这个数字从规范，解释背后的柔性布局的主要思路。</p>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/flexbox.png" alt="image"></p>
+<h1 id="属性介绍"><a href="#属性介绍" class="headerlink" title="属性介绍"></a>属性介绍</h1><h2 id="作用在父元素上的属性"><a href="#作用在父元素上的属性" class="headerlink" title="作用在父元素上的属性"></a>作用在父元素上的属性</h2><p>display: flex | inline-flex;</p>
+<p>定义一个flex容器，内联或者根据指定的值，来作用于下面的子类容器。</p>
+<ul>
+<li>box：将对象作为弹性伸缩盒显示。（伸缩盒最老版本）（css3）</li>
+<li>inline-box：将对象作为内联块级弹性伸缩盒显示。（伸缩盒最老版本）（CSS3）</li>
+<li>flexbox：将对象作为弹性伸缩盒显示。（伸缩盒过渡版本）（CSS3）</li>
+<li>inline-flexbox：将对象作为内联块级弹性伸缩盒显示。（伸缩盒过渡版本）（CSS3）</li>
+<li>flex：将对象作为弹性伸缩盒显示。（伸缩盒最新版本）（CSS3）</li>
+<li>inline-flex：将对象作为内联块级弹性伸缩盒显示。（伸缩盒最新版本）（CSS3）</li>
+</ul>
+<p>flex-direction<br>定义：设置或检索伸缩盒对象的子元素在父容器中的位置。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex-direction: row | row-reverse | column | column-reverse</span><br></pre></td></tr></table></figure>
+<ul>
+<li>row：横向从左到右排列（左对齐），默认的排列方式。</li>
+<li>row-reverse：反转横向排列（右对齐，从后往前排，最后一项排在最前面。</li>
+<li>column：纵向排列。</li>
+<li>column-reverse：反转纵向排列，从后往前排，最后一项排在最上面。</li>
+</ul>
+<p>flex-wrap<br>定义：设置或检索伸缩盒对象的子元素超出父容器时是否换行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex-wrap: nowrap | wrap | wrap-reverse</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/flex-wrap.png" alt="image"></p>
+<ul>
+<li>nowrap：当子元素溢出父容器时不换行。</li>
+<li>wrap：当子元素溢出父容器时自动换行。</li>
+<li>wrap-reverse：反转 wrap 排列。</li>
+</ul>
+<p>flex-flow<br>定义：复合属性。设置或检索伸缩盒对象的子元素排列方式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex-flow: &lt;‘flex-direction’&gt; || &lt;‘flex-wrap’&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>[ flex-direction ]：定义弹性盒子元素的排列方向。</li>
+<li>[ flex-wrap ]：定义弹性盒子元素溢出父容器时是否换行。</li>
+</ul>
+<p>justify-content<br>定义：设置或检索弹性盒子元素在主轴（横轴）方向上的对齐方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">justify-content: flex-start | flex-end | center | space-between | space-around</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/justify-content.png" alt="image"></p>
+<ul>
+<li>flex-start：弹性盒子元素将向行起始位置对齐。该行的第一个子元素的主起始位置的边界将与该行的主起始位置的边界对齐，同时所有后续的伸缩盒项目与其前一个项目对齐。</li>
+<li>flex-end：弹性盒子元素将向行结束位置对齐。该行的第一个子元素的主结束位置的边界将与该行的主结束位置的边界对齐，同时所有后续的伸缩盒项目与其前一个项目对齐。</li>
+<li>center：弹性盒子元素将向行中间位置对齐。该行的子元素将相互对齐并在行中居中对齐，同时第一个元素与行的主起始位置的边距等同与最后一个元素与行的主结束位置的边距（如果剩余空间是负数，则保持两端相等长度的溢出）。</li>
+<li>space-between：弹性盒子元素会平均地分布在行里。如果最左边的剩余空间是负数，或该行只有一个子元素，则该值等效于’flex-start’。在其它情况下，第一个元素的边界与行的主起始位置的边界对齐，同时最后一个元素的边界与行的主结束位置的边距对齐，而剩余的伸缩盒项目则平均分布，并确保两两之间的空白空间相等。</li>
+<li>space-around：弹性盒子元素会平均地分布在行里，两端保留子元素与子元素之间间距大小的一半。如果最左边的剩余空间是负数，或该行只有一个伸缩盒项目，则该值等效于’center’。在其它情况下，伸缩盒项目则平均分布，并确保两两之间的空白空间相等，同时第一个元素前的空间以及最后一个元素后的空间为其他空白空间的一半。</li>
+</ul>
+<p>align-items<br>定义：设置或检索弹性盒子元素在侧轴（纵轴）方向上的对齐方式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">align-items: flex-start | flex-end | center | baseline | stretch</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/align-items.png" alt="image"></p>
+<ul>
+<li>flex-start：弹性盒子元素的侧轴（纵轴）起始位置的边界紧靠住该行的侧轴（纵轴）起始边界。</li>
+<li>flex-end：弹性盒子元素的侧轴（纵轴）结束位置的边界紧靠住父容器的侧轴结束边界。</li>
+<li>center：弹性盒子元素在该行的侧轴（纵轴）上居中放置。（如果该行的尺寸小于弹性盒子元素的尺寸，则会向两个方向溢出相同的长度）。</li>
+<li>baseline：如弹性盒子元素的行内轴与侧轴为同一条，则该值与’flex-start’等效。其它情况下，该值将参与基线对齐。</li>
+<li>stretch：如果指定侧轴大小的属性值为’auto’，则其值会使项目的边距盒的尺寸尽可能接近所在行的尺寸，但同时会遵照’min/max-width/height’属性的限制。</li>
+</ul>
+<p>align-content<br>定义：设置或检索弹性盒堆叠伸缩行的对齐方式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">align-content: flex-start | flex-end | center | space-between | space-around | stretch</span><br></pre></td></tr></table></figure>
+<p><img src="http://ojg2nfova.bkt.clouddn.com/align-content.png" alt="image"></p>
+<ul>
+<li>flex-start：各行向弹性盒容器的起始位置堆叠。弹性盒容器中第一行的侧轴起始边界紧靠住该弹性盒容器的侧轴起始边界，之后的每一行都紧靠住前面一行。</li>
+<li>flex-end：各行向弹性盒容器的结束位置堆叠。弹性盒容器中最后一行的侧轴起结束界紧靠住该弹性盒容器的侧轴结束边界，之后的每一行都紧靠住前面一行。</li>
+<li>center：各行向弹性盒容器的中间位置堆叠。各行两两紧靠住同时在弹性盒容器中居中对齐，保持弹性盒容器的侧轴起始内容边界和第一行之间的距离与该容器的侧轴结束内容边界与第最后一行之间的距离相等。（如果剩下的空间是负数，则各行会向两个方向溢出的相等距离。）</li>
+<li>space-between：各行在弹性盒容器中平均分布。如果剩余的空间是负数或弹性盒容器中只有一行，该值等效于’flex-start’。在其它情况下，第一行的侧轴起始边界紧靠住弹性盒容器的侧轴起始内容边界，最后一行的侧轴结束边界紧靠住弹性盒容器的侧轴结束内容边界，剩余的行则按一定方式在弹性盒窗口中排列，以保持两两之间的空间相等。</li>
+<li>space-around：各行在弹性盒容器中平均分布，两端保留子元素与子元素之间间距大小的一半。如果剩余的空间是负数或弹性盒容器中只有一行，该值等效于’center’。在其它情况下，各行会按一定方式在弹性盒容器中排列，以保持两两之间的空间相等，同时第一行前面及最后一行后面的空间是其他空间的一半。</li>
+<li>stretch：各行将会伸展以占用剩余的空间。如果剩余的空间是负数，该值等效于’flex-start’。在其它情况下，剩余空间被所有行平分，以扩大它们的侧轴尺寸。</li>
+</ul>
+<h2 id="作用在子元素的属性"><a href="#作用在子元素的属性" class="headerlink" title="作用在子元素的属性"></a>作用在子元素的属性</h2><p>order<br>定义：各个子元素的排序</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">order: &lt;integer&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>\<integer>：用整数值来定义排列顺序，数值小的排在前面。可以为负值。</integer></li>
+</ul>
+<p>flex-grow<br>定义：设置或检索弹性盒的扩展比率。根据弹性盒子元素所设置的扩展因子作为比率来分配剩余空间。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex-grow: &lt;number&gt; (default 0)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>\<number>：用数值来定义扩展比率。不允许负值</number></li>
+<li>flex-grow的默认值为0，如果没有显示定义该属性，是不会拥有分配剩余空间权利的。</li>
+</ul>
+<p>flex-shrink<br>定义：设置或检索弹性盒的收缩比率（根据弹性盒子元素所设置的收缩因子作为比率来收缩空间。）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex-shrink: &lt;number&gt; (default 1)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>flex-shrink的默认值为1，如果没有显示定义该属性，将会自动按照默认值1在所有因子相加之后计算比率来进行空间收缩。</li>
+</ul>
+<p>flex-basis<br>定义：设置或检索弹性盒伸缩基准值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex-basis: &lt;length&gt; | auto (default auto)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>auto：无特定宽度值，取决于其它属性值</li>
+<li>\<length>：用长度值来定义宽度。不允许负值</length></li>
+<li>\<percentage>：用百分比来定义宽度。不允许负值</percentage></li>
+</ul>
+<p>flex<br>定义：复合属性。设置或检索伸缩盒对象的子元素如何分配空间。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flex：none | [ flex-grow ] || [ flex-shrink ] || [ flex-basis ]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>none：none关键字的计算值为: 0 0 auto</li>
+<li>[ flex-grow ]：定义弹性盒子元素的扩展比率。</li>
+<li>[ flex-shrink ]：定义弹性盒子元素的收缩比率。</li>
+<li>[ flex-basis ]：定义弹性盒子元素的默认基准值。</li>
+</ul>
+<p>align-self<br>定义：设置或检索弹性盒子元素自身在侧轴（纵轴）方向上的对齐方式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">align-self: auto | flex-start | flex-end | center | baseline | stretch</span><br></pre></td></tr></table></figure>
+<ul>
+<li>auto：如果’align-self’的值为’auto’，则其计算值为元素的父元素的’align-items’值，如果其没有父元素，则计算值为’stretch’。</li>
+<li>flex-start：弹性盒子元素的侧轴（纵轴）起始位置的边界紧靠住该行的侧轴起始边界。</li>
+<li>flex-end：弹性盒子元素的侧轴（纵轴）起始位置的边界紧靠住该行的侧轴结束边界。</li>
+<li>center：弹性盒子元素在该行的侧轴（纵轴）上居中放置。（如果该行的尺寸小于弹性盒子元素的尺寸，则会向两个方向溢出相同的长度）。</li>
+<li>baseline：如弹性盒子元素的行内轴与侧轴为同一条，则该值与’flex-start’等效。其它情况下，该值将参与基线对齐。</li>
+<li>stretch：如果指定侧轴大小的属性值为’auto’，则其值会使项目的边距盒的尺寸尽可能接近所在行的尺寸，但同时会遵照’min/max-width/height’属性的限制。</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/30/JavaScript原型链/" rel="next" title="JavaScript原型链">
+                <i class="fa fa-chevron-left"></i> JavaScript原型链
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/08/13/浏览器渲染HTML的主要过程/" rel="prev" title="浏览器渲染HTML的主要过程">
+                浏览器渲染HTML的主要过程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">liudiguang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#flexbox"><span class="nav-number">1.</span> <span class="nav-text">flexbox</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基础知识"><span class="nav-number">2.</span> <span class="nav-text">基础知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#属性介绍"><span class="nav-number">3.</span> <span class="nav-text">属性介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#作用在父元素上的属性"><span class="nav-number">3.1.</span> <span class="nav-text">作用在父元素上的属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用在子元素的属性"><span class="nav-number">3.2.</span> <span class="nav-text">作用在子元素的属性</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liudiguang</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname,
+            owner: 'Zronel',
+            repo: 'git@github.com:Zronel/Zronel.github.io.git',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'ce1ec0fb71b5e3ff493a89a30433949a78c767a7',
+            
+                client_id: '50ebacaf91c23192d58e'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.1.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.1.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.1.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.1.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.1.0',
+    sidebar: {"position":"right","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="#移动端的居中解决方案 ##背景  在移动端开发web前端一直以来让人最烦的就是各种手机的适配问题，有时候 ###方法一：flex   自然是我最喜欢的flex布局放最前面了用起来简直行云流水，一套下来横向垂直的都居中了   不过这个方案兼容性有待考虑，并不是所有的手机都支持他，特别是某些国产X5内核神器        安卓在2.3~4.3之间是支持display: -webkit-box   从">
+<meta property="og:type" content="article">
+<meta property="og:title" content="移动端的居中解决方案">
+<meta property="og:url" content="http://yoursite.com/2017/12/24/移动端的居中解决方案/index.html">
+<meta property="og:site_name" content="Notes">
+<meta property="og:description" content="#移动端的居中解决方案 ##背景  在移动端开发web前端一直以来让人最烦的就是各种手机的适配问题，有时候 ###方法一：flex   自然是我最喜欢的flex布局放最前面了用起来简直行云流水，一套下来横向垂直的都居中了   不过这个方案兼容性有待考虑，并不是所有的手机都支持他，特别是某些国产X5内核神器        安卓在2.3~4.3之间是支持display: -webkit-box   从">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://ojg2nfova.bkt.clouddn.com/caniuse.png">
+<meta property="og:updated_time" content="2018-10-31T05:09:02.986Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="移动端的居中解决方案">
+<meta name="twitter:description" content="#移动端的居中解决方案 ##背景  在移动端开发web前端一直以来让人最烦的就是各种手机的适配问题，有时候 ###方法一：flex   自然是我最喜欢的flex布局放最前面了用起来简直行云流水，一套下来横向垂直的都居中了   不过这个方案兼容性有待考虑，并不是所有的手机都支持他，特别是某些国产X5内核神器        安卓在2.3~4.3之间是支持display: -webkit-box   从">
+<meta name="twitter:image" content="http://ojg2nfova.bkt.clouddn.com/caniuse.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/24/移动端的居中解决方案/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>移动端的居中解决方案 | Notes</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/24/移动端的居中解决方案/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="liudiguang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">移动端的居中解决方案
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+                
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-24T00:00:00+08:00">2017-12-24</time>
+            
+
+            
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/24/移动端的居中解决方案/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">Comments:</span> <span class="post-comments-count gitment-comments-count" data-xid="/2017/12/24/移动端的居中解决方案/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>#移动端的居中解决方案</p>
+<p>##背景</p>
+<p> 在移动端开发web前端一直以来让人最烦的就是各种手机的适配问题，有时候</p>
+<p>###方法一：flex<br>   自然是我最喜欢的flex布局放最前面了用起来简直行云流水，一套下来横向垂直的都居中了<br>   不过这个方案兼容性有待考虑，并不是所有的手机都支持他，特别是某些国产X5内核神器</p>
+<p>   <img src="http://ojg2nfova.bkt.clouddn.com/caniuse.png" alt="flex兼容表"></p>
+<p>   安卓在2.3~4.3之间是支持display: -webkit-box<br>   从4.4开始就支持display: flex写法了</p>
+<p>   IOS在6.1~7.1之间是支持display: -webkit-box<br>   从7.2开始就支持display: flex写法了</p>
+<p>   一般来说现在没谁在用安卓2.3还有IOS6.1以下的机型了，就算有  那不管了…<br>   至于某某X5老版内核跟某某UC低版本可引入flex.css<a href="https://github.com/lzxb/flex.css" target="_blank" rel="noopener">传送门</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;box&quot;&gt;</span><br><span class="line">  	&lt;span&gt;我是居中的&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">.box &#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">  height: 200px;</span><br><span class="line">  background-color:#e5e5e5;</span><br><span class="line">  display: flex;</span><br><span class="line">  justify-content: center;</span><br><span class="line">  align-items: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###方法二：table-cell</p>
+<p>   这不多说直接上代码，没什么兼容性问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;box&quot;&gt;</span><br><span class="line">  	&lt;span&gt;我是居中的&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">.box&#123;</span><br><span class="line">  display: table-cell;    </span><br><span class="line">  vertical-align: middle;    </span><br><span class="line">  text-align: center; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###方法三：绝对定位<br>主要利用margin:0 auto来实现居中，但必须得为子元素设置个高度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;box&quot;&gt;</span><br><span class="line">  	&lt;div class=&quot;box2&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">.box&#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">  height: 200px;</span><br><span class="line">  background-color: #e5e5e5;</span><br><span class="line">  position: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.box&#123;</span><br><span class="line">  position: absolute;</span><br><span class="line">  top: 0;</span><br><span class="line">  bottom: 0;</span><br><span class="line">  left: 0;</span><br><span class="line">  right: 0;</span><br><span class="line">  width: 50%;</span><br><span class="line">  height: 50%;</span><br><span class="line">  margin: auto;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###方法四：transform</p>
+<p>类似方法三，就是得多写些前缀</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;box&quot;&gt;</span><br><span class="line">  	&lt;span&gt;我是居中的&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">.box &#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">  height: 200px;</span><br><span class="line">  background-color: #e5e5e5;</span><br><span class="line">  position: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">span&#123;</span><br><span class="line">	position: absolute;</span><br><span class="line">	top:50%;            </span><br><span class="line">	left:50%; </span><br><span class="line">	transform:translate(-50%,-50%); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###方法五：绝对定位和负边距</p>
+<p>与方法四原理一致，都是先用绝对定位把元素的左上角移动到父元素的中心，然后再通过margin把子元素的中心与父元素的中心同步，缺点就是必须要知道元素本身的宽高，没什么兼容性问题，IE6我不认识它</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;box&quot;&gt;</span><br><span class="line">  	&lt;span&gt;我是居中的&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">.box &#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">  height: 200px;</span><br><span class="line">  background-color: #e5e5e5;</span><br><span class="line">  position: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">span&#123;</span><br><span class="line">	position: absolute;          </span><br><span class="line">	width:100px;          </span><br><span class="line">	height: 50px;           </span><br><span class="line">	top:50%;           </span><br><span class="line">	left:50%;            </span><br><span class="line">	margin-left:-50px;            </span><br><span class="line">	margin-top:-25px;           </span><br><span class="line">	text-align: center; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###方法六：文字的居中</p>
+<p>利用行内元素line-height的属性，line-height设置为跟父元素一样的高度即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;box&quot;&gt;</span><br><span class="line">  	&lt;span&gt;我是居中的&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">.box &#123;</span><br><span class="line">  width: 200px;</span><br><span class="line">  height: 40px;</span><br><span class="line">  background-color: #e5e5e5;</span><br><span class="line">  text-align: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">span&#123;</span><br><span class="line">	line-height: 40px;</span><br><span class="line">	text-align: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>主流的居中方案就上面这些了</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/10/17/浏览器内的事件队列/" rel="next" title="浏览器内的事件队列">
+                <i class="fa fa-chevron-left"></i> 浏览器内的事件队列
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/15/前端安全之XSS攻击/" rel="prev" title="前端安全之XSS攻击">
+                前端安全之XSS攻击 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">liudiguang</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">13</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">liudiguang</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.1.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname,
+            owner: 'Zronel',
+            repo: 'git@github.com:Zronel/Zronel.github.io.git',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: 'ce1ec0fb71b5e3ff493a89a30433949a78c767a7',
+            
+                client_id: '50ebacaf91c23192d58e'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
